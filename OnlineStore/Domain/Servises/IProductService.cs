@@ -10,5 +10,6 @@ namespace OnlineStore.Domain.Services
 		void Submit(Product product);
 		void Delete(Product product);
 		void Delete(int id);
+		int GetMinimumProductTariff(int productId);
 	}
 }

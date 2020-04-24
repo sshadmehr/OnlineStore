@@ -85,5 +85,18 @@ namespace OnlineStore.WebApi.Controllers
 				return this.StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
 			}
 		}
+
+		[HttpGet]
+		public ActionResult<int> GetMinimumProductTariff(int id)
+		{
+			try
+			{
+				return _productService.GetMinimumProductTariff(id);
+			}
+			catch (Exception exception)
+			{
+				return this.StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+			}
+		}
 	}
 }

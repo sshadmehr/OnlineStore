@@ -14,17 +14,17 @@ namespace OnlineStore.Services
 		public ProductService(
 			IProductRepository productRepository,
 			IProductsDeliveryGroupsRepository productsDeliveryGroupsRepository,
-			IProductGroupRepository productGroupRepository,
+			ITariffRepository tariffRepository,
 			IUnitOfWork unitOfWork)
 		{
 			_productRepository = productRepository;
 			_productsDeliveryGroupsRepository = productsDeliveryGroupsRepository;
-			_productGroupRepository = productGroupRepository;
+			_tariffRepository = tariffRepository;
 			_unitOfWork = unitOfWork;
 		}
 		private readonly IProductRepository _productRepository;
 		private readonly IProductsDeliveryGroupsRepository _productsDeliveryGroupsRepository;
-		private readonly IProductGroupRepository _productGroupRepository;
+		private readonly ITariffRepository _tariffRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public void Delete(Product product)
@@ -43,10 +43,6 @@ namespace OnlineStore.Services
 		public Product Get(int id)
 		{
 			return _productRepository.Load(id);
-			//var product = _productRepository.Get(id);
-			//product.ProductsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();//TODO Replace with loader
-			//product.ProductGroup = _productGroupRepository.Get(product.ProductGroupId);
-			//return product;
 		}
 
 		public IEnumerable<Product> GetAll(bool includeDeleted = false)
@@ -85,6 +81,11 @@ namespace OnlineStore.Services
 				_unitOfWork.Commit();
 				scope.Complete();
 			}
+		}
+
+		public int GetMinimumProductTariff(int productId)
+		{
+			return _tariffRepository.GetMinTariff(productId);
 		}
 	}
 }
