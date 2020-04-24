@@ -98,5 +98,23 @@ namespace OnlineStore.WebApi.Controllers
 				return this.StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
 			}
 		}
+
+		[HttpGet]
+		public ActionResult<IEnumerable<TariffModel>> GetProductTariffList([FromQuery]string ids)
+		{
+			try
+			{
+				var separatedIds = ids.Split(new char[] { ',' });
+				List<int> parsedIds = separatedIds.Select(s => int.Parse(s)).ToList();
+				TariffModel[] tariffs = _mapper.Map<TariffModel[]>(_productService.GetProductTariffList(parsedIds));
+				return tariffs;
+			}
+			catch (Exception exception)
+			{
+				return this.StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+			}
+		}
+
+
 	}
 }

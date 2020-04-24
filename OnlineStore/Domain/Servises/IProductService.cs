@@ -11,5 +11,6 @@ namespace OnlineStore.Domain.Services
 		void Delete(Product product);
 		void Delete(int id);
 		int GetMinimumProductTariff(int productId);
+		IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids);
 	}
 }

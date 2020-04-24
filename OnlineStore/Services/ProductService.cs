@@ -87,5 +87,11 @@ namespace OnlineStore.Services
 		{
 			return _tariffRepository.GetMinTariff(productId);
 		}
+		public IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids)
+		{
+			var productIds = string.Join(",", ids.Select(n => n.ToString()).ToArray()) ;
+			return _tariffRepository.GetProductTariffList(productIds);
+		}
+		
 	}
 }
