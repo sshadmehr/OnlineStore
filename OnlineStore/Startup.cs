@@ -20,13 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OnlineStore
 {
-	public class Abbas
-	{
-		public void Foo()
-		{
-			throw new Exception("Hello");
-		}
-	}
 	public class Startup
 	{
 		public Startup(IConfiguration configuration)
