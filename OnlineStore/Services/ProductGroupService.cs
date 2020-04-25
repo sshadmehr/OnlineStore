@@ -2,10 +2,8 @@
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
 using OnlineStore.Domain.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineStore.Services
 {

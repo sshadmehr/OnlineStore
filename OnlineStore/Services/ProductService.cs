@@ -33,7 +33,7 @@ namespace OnlineStore.Services
 
 		public void Delete(Product product)
 		{
-			if (DeleteValidate(product, out List<string> messagaes))
+			if (DeleteValidate(product.Id, out List<string> messagaes))
 			{
 				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 				{
@@ -50,13 +50,12 @@ namespace OnlineStore.Services
 
 		public void Delete(int id)
 		{
-			var product = this.Get(id);
-			if (DeleteValidate(product, out List<string> messagaes))
+			if (DeleteValidate(id, out List<string> messagaes))
 			{
 				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 				{
 					_productRepository.Delete(id);
-					var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
+					var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(id)?.ToList();
 					_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
 					_unitOfWork.Commit();
 					scope.Complete();
@@ -147,7 +146,7 @@ namespace OnlineStore.Services
 			return messagaes.Count < 1;
 		}
 
-		private bool DeleteValidate(Product product, out List<string> messagaes)
+		private bool DeleteValidate(int id, out List<string> messagaes)
 		{
 			messagaes = new List<string>();
 			return true;

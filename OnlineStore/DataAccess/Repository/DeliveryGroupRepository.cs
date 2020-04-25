@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
-using System;
 using System.Linq;
 
 namespace OnlineStore.DataAccess.Repository
@@ -11,6 +10,11 @@ namespace OnlineStore.DataAccess.Repository
 		public DeliveryGroupRepository(OnlineStoreContext context) : base(context)
 		{
 
+		}
+
+		public bool DeliveryGroupExist(int deliveryGroupId)
+		{
+			return context.DeliveryGroups.Where(x => x.Id == deliveryGroupId).Count() > 0;
 		}
 
 		public bool IsNameDuplicated(DeliveryGroup deliveryGroup)

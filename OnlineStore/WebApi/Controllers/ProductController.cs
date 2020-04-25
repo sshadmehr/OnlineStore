@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineStore.DataAccess;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Services;
 using OnlineStore.WebApi.ViewModels;

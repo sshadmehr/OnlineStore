@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Snickler.EFCore;
-using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
