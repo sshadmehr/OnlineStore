@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Dtos;
 
 namespace OnlineStore.Domain.Respsitories
 {
@@ -22,20 +20,4 @@ namespace OnlineStore.Domain.Respsitories
 		void Delete(object id);
 
 	}
-	public interface IProductRepository : IBaseEntityRepository<Product>
-	{
-		Product Load(int id);
-		bool IsNameDuplicated(Product product);
-	}
-	public interface IProductGroupRepository : IBaseEntityRepository<ProductGroup> 
-	{
-		bool ProductGroupExist(int id);
-	}
-	public interface IDeliveryGroupRepository : IBaseEntityRepository<DeliveryGroup> { }
-	public interface ITariffRepository : IBaseEntityRepository<Tariff>
-	{
-		int GetMinTariff(int productId);
-		IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> productIds);
-	}
-
 }
