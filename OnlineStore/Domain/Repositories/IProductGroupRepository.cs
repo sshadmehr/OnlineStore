@@ -9,6 +9,7 @@ namespace OnlineStore.Domain.Respsitories
 	public interface IProductGroupRepository : IBaseEntityRepository<ProductGroup>
 	{
 		bool ProductGroupExist(int id);
+		bool IsNameDuplicated(ProductGroup productGroup);
 	}
 
 }

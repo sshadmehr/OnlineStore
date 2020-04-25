@@ -10,6 +10,7 @@ namespace OnlineStore.Domain.Respsitories
 	{
 		Product Load(int id);
 		bool IsNameDuplicated(Product product);
+		bool IsProductGroupUsed(int productGroupId);
 	}
 
 }

@@ -31,6 +31,11 @@ namespace OnlineStore.DataAccess.Repository
 			return result;
 		}
 
+		public bool IsProductGroupUsed(int productGroupId)
+		{
+			return (context.Products.Where(x => x.ProductGroupId == productGroupId)).Count() > 0;
+		}
+
 		public Product Load(int id)
 		{
 			return this.context.Products
