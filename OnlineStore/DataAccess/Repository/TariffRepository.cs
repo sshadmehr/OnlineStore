@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Snickler.EFCore;
 using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using OnlineStore.Dtos;
 
 namespace OnlineStore.DataAccess.Repository
 {
@@ -49,7 +51,7 @@ namespace OnlineStore.DataAccess.Repository
 
 		}
 
-		public IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids)
+		public IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> ids)
 		{
 			DbConnection connection = context.Database.GetDbConnection();
 			try
@@ -72,8 +74,15 @@ namespace OnlineStore.DataAccess.Repository
 				{
 					connection.Open();
 				}
+				IList<ProductTariffDto> result = new List<ProductTariffDto>();
+				context.LoadStoredProc("dbo.GetProductTariffList")
+							 .WithSqlParam("ProductIds", parameter)
+							 .ExecuteStoredProc((handler) =>
+							 {
+								 result = handler.ReadToList<ProductTariffDto>();
+							 });
 
-				return context.Tariffs.FromSqlRaw("EXEC [dbo].[GetProductTariffList] @ProductIds", parameter).ToList();
+				return result.ToList();
 
 			}
 			finally

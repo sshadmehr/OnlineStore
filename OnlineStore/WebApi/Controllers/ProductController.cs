@@ -100,13 +100,13 @@ namespace OnlineStore.WebApi.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<TariffModel>> GetProductTariffList([FromQuery]string ids)
+		public ActionResult<IEnumerable<ProductTariffModel>> GetProductTariffList([FromQuery]string ids)
 		{
 			try
 			{
 				var separatedIds = ids.Split(new char[] { ',' });
 				List<int> parsedIds = separatedIds.Select(s => int.Parse(s)).ToList();
-				TariffModel[] tariffs = _mapper.Map<TariffModel[]>(_productService.GetProductTariffList(parsedIds));
+				ProductTariffModel[] tariffs = _mapper.Map<ProductTariffModel[]>(_productService.GetProductTariffList(parsedIds));
 				return tariffs;
 			}
 			catch (Exception exception)

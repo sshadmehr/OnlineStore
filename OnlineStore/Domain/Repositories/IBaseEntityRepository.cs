@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using OnlineStore.Domain.Models;
+using OnlineStore.Dtos;
 
 namespace OnlineStore.Domain.Respsitories
 {
@@ -30,7 +31,7 @@ namespace OnlineStore.Domain.Respsitories
 	public interface ITariffRepository : IBaseEntityRepository<Tariff>
 	{
 		int GetMinTariff(int productId);
-		IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> productIds);
+		IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> productIds);
 	}
 
 }

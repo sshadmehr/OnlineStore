@@ -2,6 +2,7 @@
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
 using OnlineStore.Domain.Services;
+using OnlineStore.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
@@ -87,7 +88,7 @@ namespace OnlineStore.Services
 		{
 			return _tariffRepository.GetMinTariff(productId);
 		}
-		public IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids)
+		public IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> ids)
 		{
 			return _tariffRepository.GetProductTariffList(ids);
 		}

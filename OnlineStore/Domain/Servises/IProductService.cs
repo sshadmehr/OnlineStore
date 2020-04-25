@@ -1,4 +1,5 @@
 ﻿using OnlineStore.Domain.Models;
+using OnlineStore.Dtos;
 using System.Collections.Generic;
 
 namespace OnlineStore.Domain.Services
@@ -11,6 +12,6 @@ namespace OnlineStore.Domain.Services
 		void Delete(Product product);
 		void Delete(int id);
 		int GetMinimumProductTariff(int productId);
-		IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids);
+		IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> ids);
 	}
 }

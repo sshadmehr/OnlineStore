@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OnlineStore.Domain.Models;
+using OnlineStore.Dtos;
 using OnlineStore.WebApi.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace OnlineStore.WebApi.Mappings
 		{
 			this.CreateMap<Tariff, TariffModel>();
 			this.CreateMap<TariffModel, Tariff>();
+			this.CreateMap<ProductTariffDto, ProductTariffModel>();
+			this.CreateMap<ProductTariffModel, ProductTariffDto>();
 		}
 	}
 }
