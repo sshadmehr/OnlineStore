@@ -30,7 +30,7 @@ namespace OnlineStore.Domain.Respsitories
 	public interface ITariffRepository : IBaseEntityRepository<Tariff>
 	{
 		int GetMinTariff(int productId);
-		IEnumerable<Tariff> GetProductTariffList(string productIds);
+		IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> productIds);
 	}
 
 }

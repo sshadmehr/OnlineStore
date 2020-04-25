@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
@@ -29,7 +30,10 @@ namespace OnlineStore.DataAccess.Repository
 
 					cmd.Parameters.Add(new SqlParameter("@ProductId", SqlDbType.Int) { Value = productId });
 
-					if (connection.State.Equals(ConnectionState.Closed)) { connection.Open(); }
+					if (connection.State.Equals(ConnectionState.Closed))
+					{
+						connection.Open();
+					}
 
 					return (int)cmd.ExecuteScalar();
 				}
@@ -37,31 +41,39 @@ namespace OnlineStore.DataAccess.Repository
 			}
 			finally
 			{
-				if (connection.State.Equals(ConnectionState.Open)) 
-				{ 
-					connection.Close(); 
+				if (connection.State.Equals(ConnectionState.Open))
+				{
+					connection.Close();
 				}
 			}
 
 		}
 
-		public IEnumerable<Tariff> GetProductTariffList(string productIds)
+		public IEnumerable<Tariff> GetProductTariffList(IEnumerable<int> ids)
 		{
 			DbConnection connection = context.Database.GetDbConnection();
 			try
 			{
 
-				using (DbCommand cmd = connection.CreateCommand())
+				DataTable productIds = new DataTable();
+				productIds.Columns.Add("Id", typeof(int));
+				foreach (var item in ids)
 				{
-
-					cmd.CommandText = "EXEC	 [dbo].[GetProductTariffList] @ProductIds = @ProductIds";
-
-					cmd.Parameters.Add(new SqlParameter("@ProductIds", SqlDbType.NVarChar) { Value = productIds });
-
-					if (connection.State.Equals(ConnectionState.Closed)) { connection.Open(); }
-
-					return (IEnumerable<Tariff>)cmd.ExecuteScalar();
+					productIds.Rows.Add(item);
 				}
+
+				SqlParameter parameter = new SqlParameter();
+				parameter.ParameterName = "@ProductIds";
+				parameter.SqlDbType = SqlDbType.Structured;
+				parameter.Value = productIds;
+				parameter.TypeName = "dbo.[ListOfId]";
+
+				if (connection.State.Equals(ConnectionState.Closed))
+				{
+					connection.Open();
+				}
+
+				return context.Tariffs.FromSqlRaw("EXEC [dbo].[GetProductTariffList] @ProductIds", parameter).ToList();
 
 			}
 			finally
