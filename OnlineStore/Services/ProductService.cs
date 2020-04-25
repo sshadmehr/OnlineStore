@@ -6,6 +6,7 @@ using OnlineStore.Domain.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using System;
 
 namespace OnlineStore.Services
 {
@@ -102,10 +103,6 @@ namespace OnlineStore.Services
 					{
 						_productRepository.Insert(product);
 						_unitOfWork.Commit();
-
-						product.ProductsDeliveryGroups.Select(item => item.ProductId = product.Id);
-						_productsDeliveryGroupsRepository.InsertRange(product.ProductsDeliveryGroups);
-
 					}
 					_unitOfWork.Commit();
 					scope.Complete();
@@ -134,7 +131,7 @@ namespace OnlineStore.Services
 			if (product.ProductGroupId < 1)
 				messagaes.Add("Product Group Can't be emty.");
 
-			if (product.RegisterDate == null)
+			if (product.RegisterDate == null || product.RegisterDate == DateTime.MinValue)
 				messagaes.Add("Product Register Date Can't be emty.");
 
 			if (!_productGroupRepository.ProductGroupExist(product.ProductGroupId))

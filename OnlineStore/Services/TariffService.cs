@@ -4,6 +4,7 @@ using OnlineStore.Domain.Respsitories;
 using OnlineStore.Domain.Services;
 using OnlineStore.Domain.Enums;
 using System.Collections.Generic;
+using System;
 
 namespace OnlineStore.Services
 {
@@ -80,7 +81,7 @@ namespace OnlineStore.Services
 			if (tariff.DeliveryGroupId < 1)
 				messagaes.Add("Delivery Group Is InValid.");
 
-			if (tariff.EffectiveDate == null)
+			if (tariff.EffectiveDate == null || tariff.EffectiveDate == DateTime.MinValue)
 				messagaes.Add("EffectiveDate Can't be emty.");
 
 			if (!_deliveryGroupRepository.DeliveryGroupExist(tariff.DeliveryGroupId))
