@@ -1,11 +1,10 @@
 ﻿using OnlineStore.Domain.Enums;
-using OnlineStore.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnlineStore.Dtos
+namespace OnlineStore.Domain.Dtos
 {
 	public class ProductTariffDto 
 	{

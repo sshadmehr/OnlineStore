@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using OnlineStore.Dtos;
+using OnlineStore.Domain.Dtos;
 
 namespace OnlineStore.DataAccess.Repository
 {

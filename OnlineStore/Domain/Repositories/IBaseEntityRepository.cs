@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using OnlineStore.Domain.Models;
-using OnlineStore.Dtos;
+using OnlineStore.Domain.Dtos;
 
 namespace OnlineStore.Domain.Respsitories
 {
@@ -25,8 +25,12 @@ namespace OnlineStore.Domain.Respsitories
 	public interface IProductRepository : IBaseEntityRepository<Product>
 	{
 		Product Load(int id);
+		bool IsNameDuplicated(Product product);
 	}
-	public interface IProductGroupRepository : IBaseEntityRepository<ProductGroup> { }
+	public interface IProductGroupRepository : IBaseEntityRepository<ProductGroup> 
+	{
+		bool ProductGroupExist(int id);
+	}
 	public interface IDeliveryGroupRepository : IBaseEntityRepository<DeliveryGroup> { }
 	public interface ITariffRepository : IBaseEntityRepository<Tariff>
 	{

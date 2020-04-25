@@ -15,6 +15,22 @@ namespace OnlineStore.DataAccess.Repository
 
 		}
 
+		public bool IsNameDuplicated(Product product)
+		{
+			bool result = true;
+			if (product.Id > 0)
+			{
+				result = (context.Products.Where(x => x.Name == product.Name &&
+																							x.Id != product.Id
+																							)).Count() > 0;
+			}
+			else
+			{
+				result = (context.Products.Where(x => x.Name == product.Name)).Count() > 0;
+			}
+			return result;
+		}
+
 		public Product Load(int id)
 		{
 			return this.context.Products

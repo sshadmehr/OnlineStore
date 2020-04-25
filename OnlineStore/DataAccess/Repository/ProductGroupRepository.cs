@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
+using System.Linq;
 
 namespace OnlineStore.DataAccess.Repository
 {
@@ -11,5 +12,9 @@ namespace OnlineStore.DataAccess.Repository
 
 		}
 
+		public bool ProductGroupExist(int id)
+		{
+			return context.ProductGroups.Where(x => x.Id == id).Count() > 0;
+		}
 	}
 }
