@@ -1,4 +1,6 @@
-﻿namespace OnlineStore.WebApi.ViewModels
+﻿using System.Collections.Generic;
+
+namespace OnlineStore.WebApi.ViewModels
 {
 	public class DeliveryGroupModel : BaseEntityModel
 	{
