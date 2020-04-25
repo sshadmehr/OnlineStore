@@ -11,25 +11,41 @@ namespace OnlineStore.Services
 {
 	public class DeliveryGroupService : IDeliveryGroupService
 	{
-		public DeliveryGroupService(IDeliveryGroupRepository deliveryGroupRepository, IUnitOfWork unitOfWork)
+		public DeliveryGroupService(
+			IDeliveryGroupRepository deliveryGroupRepository,
+			IProductsDeliveryGroupsRepository productsDeliveryGroupsRepository,
+			IUnitOfWork unitOfWork)
 		{
 			_deliveryGroupRepository = deliveryGroupRepository;
+			_productsDeliveryGroupsRepository = productsDeliveryGroupsRepository;
 			_unitOfWork = unitOfWork;
 		}
 
 		private readonly IDeliveryGroupRepository _deliveryGroupRepository;
+		private readonly IProductsDeliveryGroupsRepository _productsDeliveryGroupsRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public void Delete(DeliveryGroup deliveryGroup)
 		{
-			_deliveryGroupRepository.Delete(deliveryGroup);
-			_unitOfWork.Commit();
+			if (DeleteValidate(deliveryGroup, out List<string> messagaes))
+			{
+				_deliveryGroupRepository.Delete(deliveryGroup);
+				_unitOfWork.Commit();
+			}
+			else
+				throw new System.Exception(string.Join(",", messagaes));
 		}
 
 		public void Delete(int id)
 		{
-			_deliveryGroupRepository.Delete(id);
-			_unitOfWork.Commit();
+			var deliveryGroup = this.Get(id);
+			if (DeleteValidate(deliveryGroup, out List<string> messagaes))
+			{
+				_deliveryGroupRepository.Delete(id);
+				_unitOfWork.Commit();
+			}
+			else
+				throw new System.Exception(string.Join(",", messagaes));
 		}
 
 		public DeliveryGroup Get(int id)
@@ -51,15 +67,43 @@ namespace OnlineStore.Services
 
 		public void Submit(DeliveryGroup deliveryGroup)
 		{
-			if(deliveryGroup.Id > 0)
+			if (SubmitValidate(deliveryGroup, out List<string> messagaes))
 			{
-				_deliveryGroupRepository.Update(deliveryGroup);
+				if (deliveryGroup.Id > 0)
+				{
+					_deliveryGroupRepository.Update(deliveryGroup);
+				}
+				else
+				{
+					_deliveryGroupRepository.Insert(deliveryGroup);
+				}
+				_unitOfWork.Commit();
 			}
 			else
-			{
-				_deliveryGroupRepository.Insert(deliveryGroup);
-			}
-			_unitOfWork.Commit();
+				throw new System.Exception(string.Join(",", messagaes));
 		}
+
+		private bool SubmitValidate(DeliveryGroup deliveryGroup, out List<string> messagaes)
+		{
+			messagaes = new List<string>();
+
+			if (string.IsNullOrEmpty(deliveryGroup.Name))
+				messagaes.Add("DeliveryGroup Name Can't be emty.");
+
+			if (_deliveryGroupRepository.IsNameDuplicated(deliveryGroup))
+				messagaes.Add("DeliveryGroup Name Is Duplicate.");
+
+			return messagaes.Count < 1;
+		}
+		private bool DeleteValidate(DeliveryGroup deliveryGroup, out List<string> messagaes)
+		{
+			messagaes = new List<string>();
+
+			if (_productsDeliveryGroupsRepository.GetByDeliveryGroup(deliveryGroup.Id).Count() > 1)
+				messagaes.Add("DeliveryGroup Is Used In Products And Can't Be Deleted.");
+
+			return true;
+		}
+
 	}
 }
