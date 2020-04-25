@@ -5,6 +5,7 @@ using OnlineStore.Domain.Services;
 using OnlineStore.Domain.Enums;
 using System.Collections.Generic;
 using System;
+using Exceptions = OnlineStore.Exceptions;
 
 namespace OnlineStore.Services
 {
@@ -26,24 +27,14 @@ namespace OnlineStore.Services
 
 		public void Delete(Tariff tariff)
 		{
-			if (DeleteValidate(tariff.Id, out List<string> messagaes))
-			{
-				_tariffRepository.Delete(tariff);
-				_unitOfWork.Commit();
-			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
+			_tariffRepository.Delete(tariff);
+			_unitOfWork.Commit();
 		}
 
 		public void Delete(int id)
 		{
-			if (DeleteValidate(id, out List<string> messagaes))
-			{
-				_tariffRepository.Delete(id);
-				_unitOfWork.Commit();
-			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
+			_tariffRepository.Delete(id);
+			_unitOfWork.Commit();
 		}
 
 		public Tariff Get(int id)
@@ -58,44 +49,39 @@ namespace OnlineStore.Services
 
 		public void Submit(Tariff tariff)
 		{
-			if (SubmitValidate(tariff, out List<string> messagaes))
+			SubmitValidate(tariff);
+			if (tariff.Id > 0)
 			{
-				if (tariff.Id > 0)
-				{
-					_tariffRepository.Update(tariff);
-				}
-				else
-				{
-					_tariffRepository.Insert(tariff);
-				}
-				_unitOfWork.Commit();
+				_tariffRepository.Update(tariff);
 			}
 			else
-				throw new System.Exception(string.Join(",", messagaes));
+			{
+				_tariffRepository.Insert(tariff);
+			}
+			_unitOfWork.Commit();
 		}
 
-		private bool SubmitValidate(Tariff tariff, out List<string> messagaes)
+		private bool SubmitValidate(Tariff tariff)
 		{
-			messagaes = new List<string>();
+			var messages = new List<string>();
 
 			if (tariff.DeliveryGroupId < 1)
-				messagaes.Add("Delivery Group Is InValid.");
+				messages.Add("Delivery Group Is InValid.");
 
 			if (tariff.EffectiveDate == null || tariff.EffectiveDate == DateTime.MinValue)
-				messagaes.Add("EffectiveDate Can't be emty.");
+				messages.Add("EffectiveDate Can't be emty.");
 
 			if (!_deliveryGroupRepository.DeliveryGroupExist(tariff.DeliveryGroupId))
-				messagaes.Add("Delivery Group Does Not Exist.");
+				messages.Add("Delivery Group Does Not Exist.");
 
 			if (System.Enum.IsDefined(typeof(DeliveryType), tariff.DeliveryType))
-				messagaes.Add("Delivery Type Is Not Valid.");
+				messages.Add("Delivery Type Is Not Valid.");
 
-			return messagaes.Count < 1;
-		}
+			if (messages.Count > 0)
+			{
+				throw new Exceptions.ApplicationException(messages);
+			}
 
-		private bool DeleteValidate(int id, out List<string> messagaes)
-		{
-			messagaes = new List<string>();
 			return true;
 		}
 	}

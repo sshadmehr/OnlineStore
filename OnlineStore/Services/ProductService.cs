@@ -6,6 +6,7 @@ using OnlineStore.Domain.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using Exceptions = OnlineStore.Exceptions;
 using System;
 
 namespace OnlineStore.Services
@@ -34,36 +35,26 @@ namespace OnlineStore.Services
 
 		public void Delete(Product product)
 		{
-			if (DeleteValidate(product.Id, out List<string> messagaes))
+			using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 			{
-				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
-				{
-					_productRepository.Delete(product);
-					var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
-					_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
-					_unitOfWork.Commit();
-					scope.Complete();
-				}
+				_productRepository.Delete(product);
+				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
+				_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
+				_unitOfWork.Commit();
+				scope.Complete();
 			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
 		}
 
 		public void Delete(int id)
 		{
-			if (DeleteValidate(id, out List<string> messagaes))
+			using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 			{
-				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
-				{
-					_productRepository.Delete(id);
-					var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(id)?.ToList();
-					_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
-					_unitOfWork.Commit();
-					scope.Complete();
-				}
+				_productRepository.Delete(id);
+				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(id)?.ToList();
+				_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
+				_unitOfWork.Commit();
+				scope.Complete();
 			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
 		}
 
 		public Product Get(int id)
@@ -85,31 +76,26 @@ namespace OnlineStore.Services
 
 		public void Submit(Product product)
 		{
-			if (SubmitValidate(product, out List<string> messagaes))
+			SubmitValidate(product);
+			using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 			{
-				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+				if (product.Id > 0)
 				{
-					if (product.Id > 0)
-					{
 
-						var oldData = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
-						_productsDeliveryGroupsRepository.DeleteRange(oldData);
-						_unitOfWork.Commit();
-						_productsDeliveryGroupsRepository.InsertRange(product.ProductsDeliveryGroups);
-						_productRepository.Update(product);
-
-					}
-					else
-					{
-						_productRepository.Insert(product);
-						_unitOfWork.Commit();
-					}
+					var oldData = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
+					_productsDeliveryGroupsRepository.DeleteRange(oldData);
 					_unitOfWork.Commit();
-					scope.Complete();
+					_productsDeliveryGroupsRepository.InsertRange(product.ProductsDeliveryGroups);
+					_productRepository.Update(product);
+
 				}
+				else
+				{
+					_productRepository.Insert(product);
+				}
+				_unitOfWork.Commit();
+				scope.Complete();
 			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
 		}
 
 		public int GetMinimumProductTariff(int productId)
@@ -121,31 +107,30 @@ namespace OnlineStore.Services
 			return _tariffRepository.GetProductTariffList(ids);
 		}
 
-		private bool SubmitValidate(Product product, out List<string> messagaes)
+		private bool SubmitValidate(Product product)
 		{
-			messagaes = new List<string>();
+			var messages = new List<string>();
 
 			if (string.IsNullOrEmpty(product.Name))
-				messagaes.Add("Product Name Can't be emty.");
+				messages.Add("Product Name Can't be emty.");
 
 			if (product.ProductGroupId < 1)
-				messagaes.Add("Product Group Can't be emty.");
+				messages.Add("Product Group Can't be emty.");
 
 			if (product.RegisterDate == null || product.RegisterDate == DateTime.MinValue)
-				messagaes.Add("Product Register Date Can't be emty.");
+				messages.Add("Product Register Date Can't be emty.");
 
 			if (!_productGroupRepository.ProductGroupExist(product.ProductGroupId))
-				messagaes.Add("Product Group Is Invalid.");
+				messages.Add("Product Group Is Invalid.");
 
 			if (_productRepository.IsNameDuplicated(product))
-				messagaes.Add("Product Name Is Duplicate.");
+				messages.Add("Product Name Is Duplicate.");
 
-			return messagaes.Count < 1;
-		}
+			if (messages.Count > 0)
+			{
+				throw new Exceptions.ApplicationException(messages);
+			}
 
-		private bool DeleteValidate(int id, out List<string> messagaes)
-		{
-			messagaes = new List<string>();
 			return true;
 		}
 	}

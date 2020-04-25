@@ -2,6 +2,7 @@
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Respsitories;
 using OnlineStore.Domain.Services;
+using OnlineStore.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,24 +26,16 @@ namespace OnlineStore.Services
 
 		public void Delete(ProductGroup productGroup)
 		{
-			if (DeleteValidate(productGroup.Id, out List<string> messagaes))
-			{
-				_productGroupRepository.Delete(productGroup);
-				_unitOfWork.Commit();
-			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
+			DeleteValidate(productGroup.Id);
+			_productGroupRepository.Delete(productGroup);
+			_unitOfWork.Commit();
 		}
 
 		public void Delete(int id)
 		{
-			if (DeleteValidate(id, out List<string> messagaes))
-			{
-				_productGroupRepository.Delete(id);
-				_unitOfWork.Commit();
-			}
-			else
-				throw new System.Exception(string.Join(",", messagaes));
+			DeleteValidate(id);
+			_productGroupRepository.Delete(id);
+			_unitOfWork.Commit();
 		}
 
 		public ProductGroup Get(int id)
@@ -64,44 +57,50 @@ namespace OnlineStore.Services
 
 		public void Submit(ProductGroup productGroup)
 		{
-			if (SubmitValidate(productGroup, out List<string> messagaes))
+			SubmitValidate(productGroup);
+			if (productGroup.Id > 0)
 			{
-				if (productGroup.Id > 0)
-				{
-					_productGroupRepository.Update(productGroup);
-				}
-				else
-				{
-					_productGroupRepository.Insert(productGroup);
-				}
-				_unitOfWork.Commit();
+				_productGroupRepository.Update(productGroup);
 			}
 			else
-				throw new System.Exception(string.Join(",", messagaes));
+			{
+				_productGroupRepository.Insert(productGroup);
+			}
+			_unitOfWork.Commit();
 		}
 
-		private bool SubmitValidate(ProductGroup productGroup, out List<string> messagaes)
+		private bool SubmitValidate(ProductGroup productGroup)
 		{
-			messagaes = new List<string>();
+			var messages = new List<string>();
 
 			if (string.IsNullOrEmpty(productGroup.Name))
-				messagaes.Add("Product Name Can't be emty.");
+				messages.Add("Product Name Can't be emty.");
 
 			if (productGroup.ParentId.HasValue && !_productGroupRepository.ProductGroupExist(productGroup.ParentId.Value))
-				messagaes.Add("Product Group Parent Is Invalid.");
+				messages.Add("Product Group Parent Is Invalid.");
 
 			if (_productGroupRepository.IsNameDuplicated(productGroup))
-				messagaes.Add("Product Group Name Is Duplicate.");
+				messages.Add("Product Group Name Is Duplicate.");
 
-			return messagaes.Count < 1;
+			if (messages.Count > 0)
+			{
+				throw new ApplicationException(messages);
+			}
+
+			return true;
 		}
 
-		private bool DeleteValidate(int id, out List<string> messagaes)
+		private bool DeleteValidate(int id)
 		{
-			messagaes = new List<string>();
+			var messages = new List<string>();
 
 			if (_productRepository.IsProductGroupUsed(id))
-				messagaes.Add("ProductGroup Is Used In Products And Can't Be Deleted.");
+				messages.Add("ProductGroup Is Used In Products And Can't Be Deleted.");
+
+			if (messages.Count > 0)
+			{
+				throw new ApplicationException(messages);
+			}
 
 			return true;
 		}
