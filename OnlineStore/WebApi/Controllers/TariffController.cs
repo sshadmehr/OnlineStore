@@ -70,11 +70,11 @@ namespace OnlineStore.WebApi.Controllers
 
 		// Use Ids smaller than one to add new Tariff. 
 		[HttpPost]
-		public ActionResult<bool> Save([FromBody]TariffModel tafiff)
+		public ActionResult<bool> Save([FromBody]TariffModel tariff)
 		{
 			try
 			{
-				_tariffService.Submit(_mapper.Map<Tariff>(tafiff));
+				_tariffService.Submit(_mapper.Map<Tariff>(tariff));
 				return true;
 			}
 			catch (Exception exception)
