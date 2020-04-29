@@ -75,7 +75,7 @@ namespace OnlineStore.Services
 			var messages = new List<string>();
 
 			if (string.IsNullOrEmpty(deliveryGroup.Name))
-				messages.Add("Delivery Group's Name Can't Be Emty.");
+				messages.Add("Delivery Group's Name Can't Be Empty.");
 
 			if (_deliveryGroupRepository.IsNameDuplicated(deliveryGroup))
 				messages.Add("Delivery Group's Name Is Duplicate.");

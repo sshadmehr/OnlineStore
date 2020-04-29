@@ -4,9 +4,10 @@ namespace OnlineStore.Migrations
 {
 	public partial class sp_GetProductTariffList : Migration
 	{
+		const string SP_NAME = "GetProductTariffList";
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			var sp = @"CREATE PROCEDURE GetProductTariffList 
+			var sp = $@"CREATE PROCEDURE {SP_NAME} 
 										@ProductIds NVARCHAR(MAX)
 									AS
 									BEGIN
@@ -28,7 +29,7 @@ namespace OnlineStore.Migrations
 
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			var command = "DROP PROCEDURE GetProductTariffList";
+			var command = $"DROP PROCEDURE {SP_NAME}";
 			migrationBuilder.Sql(command);
 		}
 	}
