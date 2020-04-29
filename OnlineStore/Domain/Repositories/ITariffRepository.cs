@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using OnlineStore.Domain.Dtos;
+﻿using OnlineStore.Domain.Dtos;
 using OnlineStore.Domain.Models;
+using System.Collections.Generic;
 
 namespace OnlineStore.Domain.Repositories
 {

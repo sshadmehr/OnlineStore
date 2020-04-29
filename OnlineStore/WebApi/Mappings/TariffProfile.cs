@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Dtos;
+using OnlineStore.Domain.Models;
 using OnlineStore.WebApi.ViewModels;
 
 namespace OnlineStore.WebApi.Mappings

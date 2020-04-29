@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Services;
 using OnlineStore.WebApi.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace OnlineStore.WebApi.Controllers
 {

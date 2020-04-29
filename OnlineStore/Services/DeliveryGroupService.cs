@@ -1,10 +1,10 @@
-﻿using OnlineStore.Domain.Models;
+﻿using OnlineStore.DataAccess;
+using OnlineStore.Domain.Models;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
+using OnlineStore.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using OnlineStore.Domain.Repositories;
-using OnlineStore.DataAccess;
-using OnlineStore.Exceptions;
 
 namespace OnlineStore.Services
 {

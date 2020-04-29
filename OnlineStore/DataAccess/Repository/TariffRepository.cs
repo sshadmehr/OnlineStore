@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Data;
-using System.Data.Common;
-using System.Collections.Generic;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
-using Snickler.EFCore;
+using OnlineStore.Domain.Dtos;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Repositories;
-using OnlineStore.Domain.Dtos;
+using Snickler.EFCore;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace OnlineStore.DataAccess.Repository
 {

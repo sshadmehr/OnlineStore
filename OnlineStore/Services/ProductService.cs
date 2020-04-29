@@ -1,13 +1,12 @@
 ﻿using OnlineStore.DataAccess;
+using OnlineStore.Domain.Dtos;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
-using OnlineStore.Domain.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using Exceptions = OnlineStore.Exceptions;
-using System;
 
 namespace OnlineStore.Services
 {

@@ -1,14 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OnlineStore.Services;
-using OnlineStore.DataAccess.Repository;
-using OnlineStore.Domain.Services;
-using OnlineStore.Domain.Repositories;
-using AutoMapper;
 using OnlineStore.DataAccess;
+using OnlineStore.DataAccess.Repository;
+using OnlineStore.Domain.Repositories;
+using OnlineStore.Domain.Services;
+using OnlineStore.Services;
 namespace OnlineStore
 {
 	public class Startup

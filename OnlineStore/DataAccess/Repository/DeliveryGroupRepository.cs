@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Domain.Models;
+﻿using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Repositories;
 using System.Linq;
 

@@ -1,11 +1,10 @@
 ﻿using OnlineStore.DataAccess;
+using OnlineStore.Domain.Enums;
 using OnlineStore.Domain.Models;
 using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
-using OnlineStore.Domain.Enums;
-using System.Collections.Generic;
 using System;
-using Exceptions = OnlineStore.Exceptions;
+using System.Collections.Generic;
 
 namespace OnlineStore.Services
 {

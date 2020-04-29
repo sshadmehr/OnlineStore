@@ -1,5 +1,5 @@
-﻿using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Dtos;
+﻿using OnlineStore.Domain.Dtos;
+using OnlineStore.Domain.Models;
 using System.Collections.Generic;
 
 namespace OnlineStore.Domain.Services

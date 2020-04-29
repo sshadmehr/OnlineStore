@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using OnlineStore.Domain.Models;
+﻿using OnlineStore.Domain.Models;
+using System.Collections.Generic;
 
 namespace OnlineStore.Domain.Repositories
 {
