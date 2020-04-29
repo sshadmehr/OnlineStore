@@ -1,12 +1,12 @@
-﻿using Microsoft.Data.SqlClient;
-using Snickler.EFCore;
-using Microsoft.EntityFrameworkCore;
-using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+using Snickler.EFCore;
+using OnlineStore.Domain.Models;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Dtos;
 
 namespace OnlineStore.DataAccess.Repository
@@ -20,11 +20,11 @@ namespace OnlineStore.DataAccess.Repository
 
 		public int GetMinTariff(int productId)
 		{
-			DbConnection connection = context.Database.GetDbConnection();
+			var connection = context.Database.GetDbConnection();
 			try
 			{
 
-				using (DbCommand cmd = connection.CreateCommand())
+				using (var cmd = connection.CreateCommand())
 				{
 
 					cmd.CommandText = "EXEC	 [dbo].[GetMinTariff] @ProductId = @ProductId";
@@ -52,18 +52,18 @@ namespace OnlineStore.DataAccess.Repository
 
 		public IEnumerable<ProductTariffDto> GetProductTariffList(IEnumerable<int> ids)
 		{
-			DbConnection connection = context.Database.GetDbConnection();
+			var connection = context.Database.GetDbConnection();
 			try
 			{
 
-				DataTable productIds = new DataTable();
+				var productIds = new DataTable();
 				productIds.Columns.Add("Id", typeof(int));
 				foreach (var item in ids)
 				{
 					productIds.Rows.Add(item);
 				}
 
-				SqlParameter parameter = new SqlParameter();
+				var parameter = new SqlParameter();
 				parameter.ParameterName = "@ProductIds";
 				parameter.SqlDbType = SqlDbType.Structured;
 				parameter.Value = productIds;

@@ -6,6 +6,6 @@ namespace OnlineStore.Domain.Enums
 		Post = 0,
 		Courier = 1,
 		Express = 2,
-		DHL = 3
+		Dhl = 3
 	}
 }

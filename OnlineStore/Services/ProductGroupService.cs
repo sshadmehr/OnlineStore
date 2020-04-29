@@ -1,6 +1,6 @@
 ﻿using OnlineStore.DataAccess;
 using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
 using OnlineStore.Exceptions;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace OnlineStore.Services
 			_unitOfWork.Commit();
 		}
 
-		private bool SubmitValidate(ProductGroup productGroup)
+		private void SubmitValidate(ProductGroup productGroup)
 		{
 			var messages = new List<string>();
 
@@ -86,11 +86,9 @@ namespace OnlineStore.Services
 			{
 				throw new ApplicationException(messages);
 			}
-
-			return true;
 		}
 
-		private bool DeleteValidate(int id)
+		private void DeleteValidate(int id)
 		{
 			var messages = new List<string>();
 
@@ -101,8 +99,6 @@ namespace OnlineStore.Services
 			{
 				throw new ApplicationException(messages);
 			}
-
-			return true;
 		}
 	}
 }

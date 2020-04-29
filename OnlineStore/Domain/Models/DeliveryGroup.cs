@@ -1,5 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 namespace OnlineStore.Domain.Models
 {
 	public class DeliveryGroup : BaseEntity, ILogicalDeletable

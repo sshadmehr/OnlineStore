@@ -9,7 +9,7 @@ namespace OnlineStore.Domain.Models
 		{
 			this.Products = new HashSet<Product>();
 		}
-		public Nullable<int> ParentId { get; set; }
+		public int? ParentId { get; set; }
 		public ICollection<Product> Products { get; set; }
 		public bool Deleted { get; set; }
 	}

@@ -1,5 +1,5 @@
 ﻿using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +15,7 @@ namespace OnlineStore.DataAccess.Repository
 
 		public void Delete(int id)
 		{
-			ProductsDeliveryGroups entityToDelete = dbSet.Find(id);
+			var entityToDelete = dbSet.Find(id);
 			Delete(entityToDelete);
 		}
 
@@ -24,7 +24,7 @@ namespace OnlineStore.DataAccess.Repository
 			return dbSet.Where(x => x.DeliveryGroupId == deliveryGroupId);
 		}
 
-		public IEnumerable<ProductsDeliveryGroups> GetByPtoduct(int productId)
+		public IEnumerable<ProductsDeliveryGroups> GetByProduct(int productId)
 		{
 			return dbSet.Where(x => x.ProductId == productId);
 		}

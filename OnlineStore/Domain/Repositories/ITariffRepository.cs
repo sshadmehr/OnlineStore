@@ -2,7 +2,7 @@
 using OnlineStore.Domain.Dtos;
 using OnlineStore.Domain.Models;
 
-namespace OnlineStore.Domain.Respsitories
+namespace OnlineStore.Domain.Repositories
 {
 	public interface ITariffRepository : IBaseEntityRepository<Tariff>
 	{

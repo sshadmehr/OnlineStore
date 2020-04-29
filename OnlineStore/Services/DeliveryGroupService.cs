@@ -2,7 +2,7 @@
 using OnlineStore.Domain.Services;
 using System.Collections.Generic;
 using System.Linq;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.DataAccess;
 using OnlineStore.Exceptions;
 
@@ -70,36 +70,32 @@ namespace OnlineStore.Services
 			_unitOfWork.Commit();
 		}
 
-		private bool SubmitValidate(DeliveryGroup deliveryGroup)
+		private void SubmitValidate(DeliveryGroup deliveryGroup)
 		{
 			var messages = new List<string>();
 
 			if (string.IsNullOrEmpty(deliveryGroup.Name))
-				messages.Add("DeliveryGroup Name Can't be emty.");
+				messages.Add("Delivery Group's Name Can't Be Emty.");
 
 			if (_deliveryGroupRepository.IsNameDuplicated(deliveryGroup))
-				messages.Add("DeliveryGroup Name Is Duplicate.");
+				messages.Add("Delivery Group's Name Is Duplicate.");
 
 			if (messages.Count > 0)
 			{
 				throw new ApplicationException(messages);
 			}
-
-			return true;
 		}
-		private bool DeleteValidate(DeliveryGroup deliveryGroup)
+		private void DeleteValidate(DeliveryGroup deliveryGroup)
 		{
 			var messages = new List<string>();
 
 			if (_productsDeliveryGroupsRepository.GetByDeliveryGroup(deliveryGroup.Id).Count() > 1)
-				messages.Add("DeliveryGroup Is Used In Products And Can't Be Deleted.");
+				messages.Add("Delivery Group Is Used In Products And Can't Be Deleted.");
 
 			if (messages.Count > 0)
 			{
 				throw new ApplicationException(messages);
 			}
-
-			return true;
 		}
 
 	}

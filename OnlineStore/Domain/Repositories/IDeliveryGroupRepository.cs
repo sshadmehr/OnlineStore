@@ -1,6 +1,6 @@
 ﻿using OnlineStore.Domain.Models;
 
-namespace OnlineStore.Domain.Respsitories
+namespace OnlineStore.Domain.Repositories
 {
 	public interface IDeliveryGroupRepository : IBaseEntityRepository<DeliveryGroup>
 	{

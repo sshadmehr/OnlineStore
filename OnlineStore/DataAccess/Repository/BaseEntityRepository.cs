@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

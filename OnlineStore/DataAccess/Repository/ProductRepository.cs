@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using System.Linq;
 
 namespace OnlineStore.DataAccess.Repository
@@ -14,23 +14,23 @@ namespace OnlineStore.DataAccess.Repository
 
 		public bool IsNameDuplicated(Product product)
 		{
-			bool result = true;
+			bool result;
 			if (product.Id > 0)
 			{
-				result = (context.Products.Where(x => x.Name == product.Name &&
+				result = context.Products.Count(x => x.Name == product.Name &&
 																							x.Id != product.Id
-																							)).Count() > 0;
+																							) > 0;
 			}
 			else
 			{
-				result = (context.Products.Where(x => x.Name == product.Name)).Count() > 0;
+				result = context.Products.Count(x => x.Name == product.Name) > 0;
 			}
 			return result;
 		}
 
 		public bool IsProductGroupUsed(int productGroupId)
 		{
-			return (context.Products.Where(x => x.ProductGroupId == productGroupId)).Count() > 0;
+			return context.Products.Count(x => x.ProductGroupId == productGroupId) > 0;
 		}
 
 		public Product Load(int id)

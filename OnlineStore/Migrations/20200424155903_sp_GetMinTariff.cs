@@ -10,7 +10,7 @@ namespace OnlineStore.Migrations
 										@ProductId INT
 									AS
 									BEGIN
-										WITH MaxTarif (DeliveryType, DeliveryGroupId, EffectiveDate) As (SELECT
+										WITH MaxTariff (DeliveryType, DeliveryGroupId, EffectiveDate) AS (SELECT
 											Tariffs.DeliveryType,
 											Tariffs.DeliveryGroupId,
 											MAX(Tariffs.EffectiveDate) AS EffectiveDate
@@ -19,9 +19,9 @@ namespace OnlineStore.Migrations
 
 										GROUP BY Tariffs.DeliveryType, Tariffs.DeliveryGroupId) 
 
-										Select 
+										SELECT 
 											MIN(Tariffs.Price) AS Price
-										from 
+										FROM 
 											MaxTarif
 										INNER JOIN 
 											ProductsDeliveryGroups

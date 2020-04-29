@@ -12,7 +12,7 @@ namespace OnlineStore.DataAccess.Configs
 			builder.Property(p => p.Id).ValueGeneratedOnAdd();
 			builder.Property(p => p.Name)
 							.IsRequired()
-							.HasColumnType("nvarchar(128)");
+							.HasMaxLength(128);
 		}
 	}
 }

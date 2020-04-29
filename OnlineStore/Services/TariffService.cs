@@ -1,6 +1,6 @@
 ﻿using OnlineStore.DataAccess;
 using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
 using OnlineStore.Domain.Enums;
 using System.Collections.Generic;
@@ -61,7 +61,7 @@ namespace OnlineStore.Services
 			_unitOfWork.Commit();
 		}
 
-		private bool SubmitValidate(Tariff tariff)
+		private void SubmitValidate(Tariff tariff)
 		{
 			var messages = new List<string>();
 
@@ -81,8 +81,6 @@ namespace OnlineStore.Services
 			{
 				throw new Exceptions.ApplicationException(messages);
 			}
-
-			return true;
 		}
 	}
 }

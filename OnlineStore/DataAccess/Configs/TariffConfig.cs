@@ -14,7 +14,7 @@ namespace OnlineStore.DataAccess.Configs
 							.IsRequired();
 			builder.Property(t => t.EffectiveDate)
 							.IsRequired()
-							.HasColumnType("smalldatetime");
+							.HasColumnType("datetime2(7)");
 		}
 	}
 }

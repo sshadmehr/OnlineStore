@@ -12,9 +12,9 @@ namespace OnlineStore.DataAccess.Configs
 			builder.Property(p => p.Id).ValueGeneratedOnAdd();
 			builder.Property(p => p.Name)
 							.IsRequired()
-							.HasColumnType("nvarchar(128)");
+							.HasMaxLength(128);
 			builder.Property(p => p.RegisterDate)
-							.HasColumnType("smalldatetime");
+							.HasColumnType("datetime2(7)");
 			builder
 					.HasOne(p => p.ProductGroup)
 					.WithMany(pg => pg.Products)

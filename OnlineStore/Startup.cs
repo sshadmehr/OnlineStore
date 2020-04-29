@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using OnlineStore.Services;
 using OnlineStore.DataAccess.Repository;
 using OnlineStore.Domain.Services;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using AutoMapper;
 using OnlineStore.DataAccess;
 namespace OnlineStore

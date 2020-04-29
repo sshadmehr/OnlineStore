@@ -1,6 +1,6 @@
 ﻿using OnlineStore.DataAccess;
 using OnlineStore.Domain.Models;
-using OnlineStore.Domain.Respsitories;
+using OnlineStore.Domain.Repositories;
 using OnlineStore.Domain.Services;
 using OnlineStore.Domain.Dtos;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace OnlineStore.Services
 			using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 			{
 				_productRepository.Delete(product);
-				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
+				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByProduct(product.Id)?.ToList();
 				_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
 				_unitOfWork.Commit();
 				scope.Complete();
@@ -50,7 +50,7 @@ namespace OnlineStore.Services
 			using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 			{
 				_productRepository.Delete(id);
-				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByPtoduct(id)?.ToList();
+				var productsDeliveryGroups = _productsDeliveryGroupsRepository.GetByProduct(id)?.ToList();
 				_productsDeliveryGroupsRepository.DeleteRange(productsDeliveryGroups);
 				_unitOfWork.Commit();
 				scope.Complete();
@@ -82,7 +82,7 @@ namespace OnlineStore.Services
 				if (product.Id > 0)
 				{
 
-					var oldData = _productsDeliveryGroupsRepository.GetByPtoduct(product.Id)?.ToList();
+					var oldData = _productsDeliveryGroupsRepository.GetByProduct(product.Id)?.ToList();
 					_productsDeliveryGroupsRepository.DeleteRange(oldData);
 					_unitOfWork.Commit();
 					_productsDeliveryGroupsRepository.InsertRange(product.ProductsDeliveryGroups);
@@ -107,7 +107,7 @@ namespace OnlineStore.Services
 			return _tariffRepository.GetProductTariffList(ids);
 		}
 
-		private bool SubmitValidate(Product product)
+		private void SubmitValidate(Product product)
 		{
 			var messages = new List<string>();
 
@@ -130,8 +130,6 @@ namespace OnlineStore.Services
 			{
 				throw new Exceptions.ApplicationException(messages);
 			}
-
-			return true;
 		}
 	}
 }
